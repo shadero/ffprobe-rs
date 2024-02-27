@@ -26,6 +26,8 @@ pub fn ffprobe(path: impl AsRef<std::path::Path>) -> Result<FfProbe, FfProbeErro
         Config {
             count_frames: false,
             ffprobe_bin: "ffprobe".into(),
+            analyzeduration: None,
+            probesize: None,
         },
         path,
     )
@@ -55,6 +57,16 @@ pub fn ffprobe_config(
         cmd.arg("-count_frames");
     }
 
+    if let Some(size) = config.analyzeduration {
+        cmd.arg("-analyzeduration");
+        cmd.arg(size);
+    }
+
+    if let Some(size) = config.probesize {
+        cmd.arg("-probesize");
+        cmd.arg(size);
+    }
+
     cmd.arg(path);
 
     let out = cmd.output().map_err(FfProbeError::Io)?;
@@ -73,6 +85,8 @@ pub fn ffprobe_config(
 pub struct Config {
     count_frames: bool,
     ffprobe_bin: std::path::PathBuf,
+    analyzeduration: Option<String>,
+    probesize: Option<String>,
 }
 
 impl Config {
@@ -93,6 +107,8 @@ impl ConfigBuilder {
             config: Config {
                 count_frames: false,
                 ffprobe_bin: "ffprobe".into(),
+                analyzeduration: None,
+                probesize: None,
             },
         }
     }
