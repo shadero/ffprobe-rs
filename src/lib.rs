@@ -128,6 +128,16 @@ impl ConfigBuilder {
         self
     }
 
+    pub fn analyzeduration(mut self, analyzeduration: Option<String>) -> Self {
+        self.config.analyzeduration = analyzeduration;
+        self
+    }
+
+    pub fn probesize(mut self, probesize: Option<String>) -> Self {
+        self.config.probesize = probesize;
+        self
+    }
+
     /// Finalize the builder into a [`Config`].
     pub fn build(self) -> Config {
         self.config
